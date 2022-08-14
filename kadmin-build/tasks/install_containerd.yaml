@@ -1,0 +1,37 @@
+---
+- name: 'Install containerd binaries'
+  unarchive:
+    src: containerd-1.6.7-linux-amd64.tar.gz
+    dest: /usr/local
+
+- name: 'Copy containerd.service'
+  copy:
+    src: containerd.service
+    dest: /usr/local/lib/systemd/system/
+    owner: root
+    group: root
+
+- name: 'Systemctl daemon reload and start containerd'
+  systemd:
+    name: containerd
+    state: restarted
+    daemon_reload: yes
+
+- name: 'Installing runc'
+  copy:
+    src: runc.amd64
+    dest: /usr/local/sbin/runc
+    mode: 0755
+
+- name: 'Installing CNI plugins'
+  unarchive:
+    src: cni-plugins-linux-amd64-v1.1.1.tgz
+    dest: /opt/cni/bin
+
+
+
+
+
+
+
+
