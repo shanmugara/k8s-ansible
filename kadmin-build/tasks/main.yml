@@ -1,4 +1,4 @@
 ---
 # tasks file for kadmin-build
-- name: 'Installing kuberenetes and dependencies'
-  import_taks: install_containerd.yaml
+- name: Installing kuberenetes and dependencies
+  import_tasks: install_containerd.yaml
