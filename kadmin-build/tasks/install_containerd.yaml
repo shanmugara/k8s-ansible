@@ -11,17 +11,18 @@
     owner: root
     group: root
 
-- name: 'Systemctl daemon reload and start containerd'
-  systemd:
-    name: containerd
-    state: restarted
-    daemon_reload: yes
-
 - name: 'Installing runc'
   copy:
     src: runc.amd64
     dest: /usr/local/sbin/runc
     mode: 0755
+
+
+- name: 'Systemctl daemon reload and start containerd'
+  systemd:
+    name: containerd
+    state: restarted
+    daemon_reload: yes
 
 - name: 'Installing CNI plugins'
   unarchive:
