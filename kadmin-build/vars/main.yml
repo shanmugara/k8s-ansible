@@ -3,3 +3,13 @@
 kubeadm_version: 1.23.9-00
 kubectl_version: 1.23.9-00
 kubelet_version: 1.23.9-00
+cluster_name: 'omega-k8s-cl1.omegaworld.net'
+pod_cidr: '10.244.0.0/16'
+
+{% if 'masters' in group_names %}
+  role: controlplane
+{% endif %}
+
+{% if 'workers' in group_names %}
+  role: workers
+{% endif %}
