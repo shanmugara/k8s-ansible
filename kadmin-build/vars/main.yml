@@ -1,3 +1,5 @@
 ---
 # vars file for kadmin-build
 kubeadm_version: 1.23.9-00
+kubectl_version: 1.23.9-00
+kubelet_version: 1.23.9-00
