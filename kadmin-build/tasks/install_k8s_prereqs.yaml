@@ -9,9 +9,9 @@
   - "curl"
 
 - name: Create /etc/modules-load.d/k8s.conf
-   file:
-     path: /etc/modules-load.d/k8s.conf
-     state: touch
+  file:
+    path: /etc/modules-load.d/k8s.conf
+    state: touch
 
 - name: Update br_netfilter /etc/modules-load.d/k8s.conf
   lineinfile:
