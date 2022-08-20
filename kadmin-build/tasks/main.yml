@@ -11,3 +11,6 @@
 
 - name: Install main k8s packages
   import_tasks: base_k8s_install.yaml
+
+- name: Install controlplane
+  import_tasks: deploy_controlplane.yaml
