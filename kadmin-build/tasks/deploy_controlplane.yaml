@@ -2,4 +2,4 @@
 - name: kubeadm init controlpane
   shell:
     cmd: kubeadm init --apiserver-advertise-address {{ ansible_facts['ansible_default_ipv4']['address']|quote }} --apiserver-cert-extra-sans {{ ansible_facts['ansible_default_ipv4']['address']|quote}}, {{ ansible_facts['ansible_fqdn']|quote }},{{ ansible_facts['ansible_fqdn']|quote }},{{ ansible_facts['ansible_hostname']|quote }},{{ cluster_name|quote }} --control-plane-endpoint {{ cluster_name|quote }} --pod-network-cidr {{ pod_cidr|quote }}
-  when: "masters" in group_names
+  when: '"masters" in {{ group_names }}'
