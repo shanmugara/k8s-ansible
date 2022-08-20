@@ -6,4 +6,4 @@
 - name: debug print
   debug:
     msg: Hello "{{ group_names }}"
-  when: "'masters' in {{ group_names }}"
+  when: "'masters' in group_names"
