@@ -8,7 +8,7 @@
 - name: Add k8s repo Ubuntu
   copy:
     src: deb_repo
-    dest: /etc/apt/sources.list.d/kubernetes.repo
+    dest: /etc/apt/sources.list.d/kubernetes.list
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Add k8s repo CentOS
