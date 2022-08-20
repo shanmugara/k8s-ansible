@@ -1,0 +1,9 @@
+---
+- name: Install pre-reqs
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+  - "apt-transport-https"
+  - "ca-certificates"
+  - "curl"

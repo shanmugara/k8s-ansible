@@ -1,4 +1,7 @@
 ---
 # tasks file for kadmin-build
-- name: Installing kuberenetes and dependencies
+- name: Installing containerd
   import_tasks: install_containerd.yaml
+
+- name: Installing pre-req packages
+  import_tasks: install_k8s_prereqs.yaml
