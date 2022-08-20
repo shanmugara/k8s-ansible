@@ -24,6 +24,11 @@
     state: restarted
     daemon_reload: yes
 
+- name: create dir /opt/cni
+  file:
+    path: /opt/cni
+    state: directory
+
 - name: 'Installing CNI plugins'
   unarchive:
     src: cni-plugins-linux-amd64-v1.1.1.tgz
