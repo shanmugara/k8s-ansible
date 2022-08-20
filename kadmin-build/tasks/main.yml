@@ -7,3 +7,4 @@
   import_tasks: install_k8s_prereqs.yaml
 
 - name: Add k8s apt repo
+  import_tasks: add_k8s_repo.yaml
