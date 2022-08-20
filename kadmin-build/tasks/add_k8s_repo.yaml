@@ -15,4 +15,4 @@
   copy:
     src: redhat_repo
     dest: /etc/yum.repos.d/
-   when: ansible_facts['distribution'] == "CentOS"
+  when: ansible_facts['distribution'] == "CentOS"
