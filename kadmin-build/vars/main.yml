@@ -1,2 +1,3 @@
 ---
 # vars file for kadmin-build
+kubeadm_version = 1.23.9
