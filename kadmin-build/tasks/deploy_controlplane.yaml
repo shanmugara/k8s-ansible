@@ -1,7 +1,8 @@
 ---
 - name: kubeadm init controlpane
   shell:
-    cmd: kubeadm init \
+    cmd: >
+      kubeadm init \
       --apiserver-advertise-address {{ ansible_facts['ansible_default_ipv4']['address']|quote }} \
       --apiserver-cert-extra-sans {{ ansible_facts['ansible_default_ipv4']['address']|quote}}, \
         {{ ansible_facts['ansible_fqdn']|quote }},{{ ansible_facts['ansible_fqdn']|quote }}, \
