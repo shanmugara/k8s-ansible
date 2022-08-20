@@ -7,3 +7,63 @@
   - "apt-transport-https"
   - "ca-certificates"
   - "curl"
+
+-  name: create /etc/modules-load.d/k8s.conf
+     file:
+       path: /etc/modules-load.d/k8s.conf
+       state: touch
+
+- name: update br_netfilter /etc/modules-load.d/k8s.conf
+  lineinfile:
+    path: /etc/modules-load.d/k8s.conf
+    line: "br_netfilter"
+
+- name: add overlay to modules
+  lineinfile:
+    path: /etc/modules-load.d/k8s.conf
+    line: "overlay"
+
+- name: modprobe overlay
+  modprobe:
+    name: overlay
+    state: present
+
+- name: modprobe add br_netfilter
+  modprobe:
+    name: br_netfilter
+    state: present
+
+- name: update sysctl net.bridge.bridge-nf-call-ip6tables
+  sysctl:
+    sysctl_file: /etc/sysctl.d/99-k8s.conf
+    name: net.bridge.bridge-nf-call-ip6tables
+    value: "1"
+    state: present
+    reload: yes
+
+- name: update sysctl net.bridge.bridge-nf-call-iptables
+    sysctl:
+      sysctl_file: /etc/sysctl.d/99-k8s.conf
+      name: net.bridge.bridge-nf-call-iptables
+      value: "1"
+      state: present
+      reload: yes
+
+- name: set ip forwarding
+  sysctl:
+    sysctl_file: /etc/sysctl.d/99-k8s.conf
+    name: net.ipv4.ip_forward
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Disable SWAP since kubernetes can't work with swap enabled (1/2)
+  shell:
+    cmd: swapoff -a
+
+- name: Disable SWAP in fstab since kubernetes can't work with swap enabled (2/2)
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
+
