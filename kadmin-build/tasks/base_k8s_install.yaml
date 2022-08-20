@@ -1,9 +1,9 @@
 ---
-- name: 'Install kubeadm Debian'
+- name: 'Install kubeadm Ubuntu'
   apt:
     name: kubeadm='{{ kubeadm_version}}'
     state: present
-  when: ansible_facts['distribution'] == "Debian"
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: 'Install kubeadm CentOS'
   yum:
@@ -11,11 +11,11 @@
     state: present
   when: ansible_facts['distribution'] == "CentOS"
 
-- name: 'Install kubectl Debian'
+- name: 'Install kubectl Ubuntu'
   apt:
     name: kubectl='{{ kubectl_version}}'
     state: present
-  when: ansible_facts['distribution'] == "Debian"
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: 'Install kubectl CentOS'
   yum:
@@ -23,11 +23,11 @@
     state: present
   when: ansible_facts['distribution'] == "CentOS"
 
-- name: 'Install kubelet Debian'
+- name: 'Install kubelet Ubuntu'
   apt:
     name: kubelet='{{ kubelet_version}}'
     state: present
-  when: ansible_facts['distribution'] == "Debian"
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: 'Install kubelet CentOS'
   yum:
@@ -35,11 +35,11 @@
     state: present
   when: ansible_facts['distribution'] == "CentOS"
 
-- name: Prevent upgrading k8s packages (Debian)
+- name: Prevent upgrading k8s packages (Ubuntu)
   dpkg_selections:
     name: "{{ item }}"
     selection: hold
-  when: ansible_facts['distribution'] == "Debian"
+  when: ansible_facts['distribution'] == "Ubuntu"
   loop:
   - kubeadm
   - kubectl

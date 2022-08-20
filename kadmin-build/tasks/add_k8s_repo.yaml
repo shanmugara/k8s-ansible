@@ -1,17 +1,17 @@
 ---
-- name: Copy k8s Google Public signing key Debian
+- name: Copy k8s Google Public signing key Ubuntu
   copy:
     src: kubernetes-archive-keyring.gpg
     dest: /usr/share/keyrings/
-  when: ansible_facts['distribution'] == "Debian"
+  when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: Add k8s repo Debian
+- name: Add k8s repo Ubuntu
   copy:
     src: deb_repo
     dest: /etc/apt/sources.list.d/
-  when: ansible_facts['distribution'] == "Debian"
+  when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: Add k8s repo RedHat
+- name: Add k8s repo CentOS
   copy:
     src: redhat_repo
     dest: /etc/yum.repos.d/
