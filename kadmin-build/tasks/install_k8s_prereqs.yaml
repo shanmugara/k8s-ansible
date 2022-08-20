@@ -42,12 +42,12 @@
     reload: yes
 
 - name: update sysctl net.bridge.bridge-nf-call-iptables
-    sysctl:
-      sysctl_file: /etc/sysctl.d/99-k8s.conf
-      name: net.bridge.bridge-nf-call-iptables
-      value: "1"
-      state: present
-      reload: yes
+  sysctl:
+    sysctl_file: /etc/sysctl.d/99-k8s.conf
+    name: net.bridge.bridge-nf-call-iptables
+    value: "1"
+    state: present
+    reload: yes
 
 - name: set ip forwarding
   sysctl:
