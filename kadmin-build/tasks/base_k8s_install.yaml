@@ -34,3 +34,13 @@
     name: kubelet='{{ kubelet_version}}'
     state: present
   when: ansible_facts['distribution'] == "CentOS"
+
+- name: Prevent upgrading k8s packages (Debian)
+  dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  when: ansible_facts['distribution'] == "Debian"
+  loop:
+  - kubeadm
+  - kubectl
+  - kubelet

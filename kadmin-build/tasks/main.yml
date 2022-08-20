@@ -5,3 +5,5 @@
 
 - name: Installing pre-req packages
   import_tasks: install_k8s_prereqs.yaml
+
+- name: Add k8s apt repo
