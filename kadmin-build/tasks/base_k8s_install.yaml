@@ -1,37 +1,37 @@
 ---
 - name: 'Install kubeadm Ubuntu'
   apt:
-    name: kubeadm='{{ kubeadm_version}}'
+    name: kubeadm='{{ kubeadm_version }}'
     state: present
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: 'Install kubeadm CentOS'
   yum:
-    name: kubeadm='{{ kubeadm_version}}'
+    name: kubeadm='{{ kubeadm_version }}'
     state: present
   when: ansible_facts['distribution'] == "CentOS"
 
 - name: 'Install kubectl Ubuntu'
   apt:
-    name: kubectl='{{ kubectl_version}}'
+    name: kubectl='{{ kubectl_version }}'
     state: present
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: 'Install kubectl CentOS'
   yum:
-    name: kubectl='{{ kubectl_version}}'
+    name: kubectl='{{ kubectl_version }}'
     state: present
   when: ansible_facts['distribution'] == "CentOS"
 
 - name: 'Install kubelet Ubuntu'
   apt:
-    name: kubelet='{{ kubelet_version}}'
+    name: kubelet='{{ kubelet_version }}'
     state: present
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: 'Install kubelet CentOS'
   yum:
-    name: kubelet='{{ kubelet_version}}'
+    name: kubelet='{{ kubelet_version }}'
     state: present
   when: ansible_facts['distribution'] == "CentOS"
 
