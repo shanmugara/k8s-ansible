@@ -8,7 +8,11 @@
   debug:
     msg: "{{ kctl_ver.stdout }}"
 
+- name: Download weave definition file
+  shell:
+    cmd: curl -L https://cloud.weave.works/k8s/net?k8s-version="{{ kctl_ver.stdout|quote }}" --output /tmp/weave.yaml
+
 - name: Install Weave network
   kubernetes.core.k8s:
     state: present
-    src: https://cloud.weave.works/k8s/net?k8s-version="{{ kctl_ver.stdout|quote }}"
+    src: /tmp/weave.yaml
