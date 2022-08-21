@@ -1,16 +1,19 @@
 ---
 # tasks file for kadmin-build
-- name: Installing containerd
-  import_tasks: install_containerd.yaml
+# - name: Installing containerd
+#   import_tasks: install_containerd.yaml
+#
+# - name: Installing pre-req packages
+#   import_tasks: install_k8s_prereqs.yaml
+#
+# - name: Add k8s apt repo
+#   import_tasks: add_k8s_repo.yaml
+#
+# - name: Install main k8s packages
+#   import_tasks: base_k8s_install.yaml
+#
+# - name: Install controlplane
+#   import_tasks: deploy_controlplane.yaml
 
-- name: Installing pre-req packages
-  import_tasks: install_k8s_prereqs.yaml
-
-- name: Add k8s apt repo
-  import_tasks: add_k8s_repo.yaml
-
-- name: Install main k8s packages
-  import_tasks: base_k8s_install.yaml
-
-- name: Install controlplane
-  import_tasks: deploy_controlplane.yaml
+- name: Create kubeconfig
+  import_tasks: create_kube_config.yaml

@@ -1,0 +1,11 @@
+---
+- name: Create .kube in root homedir if not exists
+  file:
+    path: /root/.kube
+    state: directory
+
+- name: Copy admin.conf to homedir
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /root/.kube/config
+    delegate_to: localhost
