@@ -8,4 +8,4 @@
   copy:
     src: /etc/kubernetes/admin.conf
     dest: /root/.kube/config
-    delegate_to: localhost
+    remote_src: yes
