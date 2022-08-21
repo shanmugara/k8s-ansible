@@ -3,6 +3,7 @@
   apt:
     name: kubectl='{{ kubectl_version }}'
     state: present
+    update_cache: yes
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: 'Install kubectl CentOS'
@@ -15,6 +16,7 @@
   apt:
     name: kubelet='{{ kubelet_version }}'
     state: present
+    update_cache: yes
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: 'Install kubelet CentOS'
@@ -28,6 +30,7 @@
     name: kubeadm='{{ kubeadm_version }}'
     state: present
     update_cache: yes
+
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: 'Install kubeadm CentOS'
