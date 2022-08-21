@@ -1,7 +1,7 @@
 ---
 - name: Get kubectl version
   shell:
-    cmd: kubectl version | base64 | tr -d '\n'
+    cmd: echo $(kubectl version | base64 | tr -d '\n')
   register: kctl_ver
 
 - name: Install Weave network
