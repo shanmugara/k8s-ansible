@@ -17,3 +17,6 @@
 
 - name: Create kubeconfig
   import_tasks: create_kube_config.yaml
+
+- name: Install WeaveWorks network
+  import_tasks: install_k8s_network.yaml
