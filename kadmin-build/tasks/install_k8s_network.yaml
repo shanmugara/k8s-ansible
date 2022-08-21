@@ -6,9 +6,9 @@
 
 - name: debug out
   debug:
-    msg: "{{ kctl_ver }}"
+    msg: "{{ kctl_ver.stdout }}"
 
 - name: Install Weave network
   kubernetes.core.k8s:
     state: present
-    src: https://cloud.weave.works/k8s/net?k8s-version="{{ kctl_ver|quote }}"
+    src: https://cloud.weave.works/k8s/net?k8s-version="{{ kctl_ver.stdout|quote }}"
