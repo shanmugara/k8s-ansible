@@ -4,6 +4,10 @@
     cmd: echo $(kubectl version | base64 | tr -d '\n')
   register: kctl_ver
 
+- name: debug out
+  debug:
+    msg: "{{ kctl_ver }}"
+
 - name: Install Weave network
   kubernetes.core.k8s:
     state: present
