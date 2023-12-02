@@ -22,3 +22,6 @@
 - name: Install WeaveWorks network
   import_tasks: install_k8s_network.yaml
   when: "'masters' in group_names"
+
+- name: Register worker nodes
+  import_tasks: register_workers.yaml
