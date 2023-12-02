@@ -1,8 +1,8 @@
 ---
 - name: Copy k8s Google Public signing key Ubuntu
   copy:
-    src: kubernetes-archive-keyring.gpg
-    dest: /usr/share/keyrings/
+    src: kubernetes-apt-keyring.gpg 
+    dest: /etc/apt/keyrings/ 
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Add k8s repo Ubuntu

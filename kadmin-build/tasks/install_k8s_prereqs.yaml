@@ -7,7 +7,7 @@
 
 - name: Update python3 kubernetes
   apt:
-    name: kubernetes
+    name: python3-kubernetes
     state: present
   when: ansible_facts['distribution'] == "Ubuntu"
 

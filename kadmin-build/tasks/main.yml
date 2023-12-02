@@ -1,5 +1,4 @@
 ---
-# tasks file for kadmin-build
 - name: Installing containerd
   import_tasks: install_containerd.yaml
 
@@ -11,12 +10,14 @@
 
 - name: Install main k8s packages
   import_tasks: base_k8s_install.yaml
-#
-# - name: Install controlplane
-#   import_tasks: deploy_controlplane.yaml
+
+- name: Install controlplane
+  import_tasks: deploy_controlplane.yaml
+  when: "'masters' in group_names"
 
 - name: Create kubeconfig
   import_tasks: create_kube_config.yaml
+  when: "'masters' in group_names"
 
 - name: Install WeaveWorks network
   import_tasks: install_k8s_network.yaml
