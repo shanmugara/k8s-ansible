@@ -12,10 +12,6 @@
   shell:
     cmd: curl -L https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml --output /tmp/weave.yaml
 
-# - name: Install Weave network
-#   kubernetes.core.k8s:
-#     state: present
-#     src: /tmp/weave.yaml
 
 - name: Install Weave network (kubectl)
   shell:

@@ -1,7 +1,2 @@
 ---
 # vars file for kadmin-build
-#kubeadm_version: 1.24.2-00
-#kubectl_version: 1.24.2-00
-#kubelet_version: 1.24.2-00
-#cluster_name: 'omega-k8s-3.omegaworld.net'
-#pod_cidr: '10.244.0.0/16'

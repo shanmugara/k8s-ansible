@@ -23,5 +23,21 @@
   import_tasks: install_k8s_network.yaml
   when: "'masters' in group_names"
 
+- name: Register join command
+  import_tasks: register_joincmd.yaml
+  when: '"masters" in group_names'
+
 - name: Register worker nodes
   import_tasks: register_workers.yaml
+  when: "'workers' in group_names"
+
+- name: Install nfs_common
+  import_tasks: install_nfs_common.yaml
+
+- name: Deploy helm binary
+  import_tasks: install_helm.yaml
+  when: '"masters" in group_names'
+
+- name: Deploy storage_class
+  import_tasks: install_nfs_sc.yaml
+  when: '"masters" in group_names'

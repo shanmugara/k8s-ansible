@@ -1,11 +1,22 @@
 ---
-- name: Register join command
-  shell:
-    cmd: kubeadm token create --print-join-command
-    register: join_cmd
-  when: "'masters' in group_names"
+- name: Deploy join_cmd to remote
+  copy:
+    src: /tmp/join_cmd.yaml
+    dest: /tmp/join_cmd.yaml
+  when: '"workers" in group_names'
+
+- name: Load join_cmd from file
+  include_vars:
+    file: /tmp/join_cmd.yaml
+  when: '"workers" in group_names'
+
+- name: Debug print var
+  debug:
+    msg: Var value "{{ join_cmd }}"
+  when: '"workers" in group_names'
 
 - name: Register Worker node
   shell:
-    cmd: "{{ join_cmd.stdout }}"
+    cmd: "{{ join_cmd }}"
   when: "'workers' in group_names"
+  ignore_errors: true

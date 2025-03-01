@@ -1,0 +1,9 @@
+---
+- name: Copy nfs-subdir-external-provisioner to remote
+  copy:
+    src: nfs-subdir-external-provisioner
+    dest: /etc/kubernetes/helm_charts
+
+- name: Deploy nfs-subdir-external-provisioner helm chart
+  command: "helm install nfs-subdir-external-provisioner /etc/kubernetes/helm_charts/nfs-subdir-external-provisioner"
+  ignore_errors: true

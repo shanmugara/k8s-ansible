@@ -1,0 +1,12 @@
+---
+- name: Register join command
+  shell: "kubeadm token create --print-join-command"
+  register: join_cmd_local
+  when: '"masters" in group_names'
+
+- name: Create a join_cmd file locally
+  template:
+    src: join_cmd.j2
+    dest: /tmp/join_cmd.yaml
+  when: '"masters" in group_names'
+  delegate_to: localhost

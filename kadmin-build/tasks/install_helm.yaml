@@ -1,0 +1,6 @@
+---
+- name: Deploy helm binary
+  copy:
+    src: helm
+    dest: /usr/local/bin
+    mode: '0555'
