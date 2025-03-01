@@ -4,6 +4,8 @@ kube_version: 1.24.2-00
 kubeadm_version: "{{ kube_version }}"
 kubectl_version: "{{ kube_version }}"
 kubelet_version: "{{ kube_version }}"
+
+kube_major_minor: "{{ kube_version.split('-')[0].split('.')[:2] | join('.') }}"
 #cluster_name: 'omega-k8s-3.omegaworld.net'
 pod_cidr: '10.244.0.0/16'
 containerd_version: 2.0.3
