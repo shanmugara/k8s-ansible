@@ -30,6 +30,7 @@
 - name: Save the converted GPG key to keyring
   copy:
     src: /tmp/kubernetes-release.key.gpg
+    remote_src: true
     dest: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     owner: root
     group: root
