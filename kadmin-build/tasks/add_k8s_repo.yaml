@@ -16,7 +16,7 @@
 - name: Add Kubernetes Google Public signing key to keyring Focal
   get_url:
     url: "https://pkgs.k8s.io/core:/stable:/v{{ kube_major_minor }}/deb/Release.key"
-    state: present
+    force: true
     dest: /tmp/kubernetes-apt-keyring.gpg
   when: ansible_facts.distribution_version == '20.04'
 
