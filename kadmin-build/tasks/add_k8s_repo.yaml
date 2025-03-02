@@ -17,19 +17,19 @@
   get_url:
     url: "https://pkgs.k8s.io/core:/stable:/v{{ kube_major_minor }}/deb/Release.key"
     force: true
-    dest: /tmp/kubernetes-apt-keyring.gpg
+    dest: /tmp/kubernetes-apt-keyring
   when: ansible_facts.distribution_version == '20.04'
 
 - name: Convert GPG key from ASCII to binary format
-  command: gpg --dearmor /tmp/kubernetes-release.key
+  command: gpg --dearmor /tmp/kubernetes-apt-keyring
   args:
-    removes: /tmp/kubernetes-release.key
+    chdir: /tmp
   register: dearmor_output
   when: ansible_facts.distribution_version == '20.04'
 
 - name: Save the converted GPG key to keyring
   copy:
-    src: /tmp/kubernetes-release.key.gpg
+    src: /tmp/kubernetes-apt-keyring.gpg
     remote_src: true
     dest: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     owner: root
