@@ -21,9 +21,7 @@
   when: ansible_facts.distribution_version == '20.04'
 
 - name: Convert GPG key from ASCII to binary format
-  command: gpg --dearmor /tmp/kubernetes-apt-keyring
-  args:
-    chdir: /tmp
+  command: gpg --dearmor -o /tmp/kubernetes-apt-keyring.gpg /tmp/kubernetes-apt-keyring
   register: dearmor_output
   when: ansible_facts.distribution_version == '20.04'
 
