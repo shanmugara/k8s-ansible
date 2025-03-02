@@ -21,20 +21,20 @@
   when: ansible_facts.distribution_version == '20.04'
 
 - name: Convert GPG key from ASCII to binary format
-      command: gpg --dearmor /tmp/kubernetes-release.key
-      args:
-        removes: /tmp/kubernetes-release.key
-      register: dearmor_output
-      when: ansible_facts.distribution_version == '20.04'
+  command: gpg --dearmor /tmp/kubernetes-release.key
+  args:
+    removes: /tmp/kubernetes-release.key
+  register: dearmor_output
+  when: ansible_facts.distribution_version == '20.04'
 
 - name: Save the converted GPG key to keyring
-      copy:
-        src: /tmp/kubernetes-release.key.gpg
-        dest: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-        owner: root
-        group: root
-        mode: '0644'
-      when: dearmor_output.rc == 0 and ansible_facts.distribution_version == '20.04'
+  copy:
+    src: /tmp/kubernetes-release.key.gpg
+    dest: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    owner: root
+    group: root
+    mode: '0644'
+  when: dearmor_output.rc == 0 and ansible_facts.distribution_version == '20.04'
 
 - name: Update APT package list
   apt:
