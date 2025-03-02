@@ -31,12 +31,6 @@
     mode: '0644'
   when: dearmor_output.rc == 0 and ansible_facts.distribution_version == '20.04'
 
-# - name: Add k8s repo Ubuntu
-#   copy:
-#     src: deb_repo
-#     dest: /etc/apt/sources.list.d/kubernetes.list
-#   when: ansible_facts['distribution'] == "Ubuntu"
-
 - name: Add k8s repo sources file for Ubuntu
   lineinfile:
     path: /etc/apt/sources.list.d/kubernetes.list
