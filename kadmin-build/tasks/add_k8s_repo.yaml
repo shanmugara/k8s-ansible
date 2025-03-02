@@ -11,13 +11,34 @@
     url: "https://pkgs.k8s.io/core:/stable:/v{{ kube_major_minor }}/deb/Release.key"
     dest: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     force: true
-  when: ansible_facts['distribution'] == "Ubuntu"
+  when: ansible_facts.distribution_version > '20.04'
 
 - name: Add Kubernetes Google Public signing key to keyring Focal
-  apt_key:
+  get_url:
     url: "https://pkgs.k8s.io/core:/stable:/v{{ kube_major_minor }}/deb/Release.key"
     state: present
-    keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    dest: /tmp/kubernetes-apt-keyring.gpg
+  when: ansible_facts.distribution_version == '20.04'
+
+- name: Convert GPG key from ASCII to binary format
+      command: gpg --dearmor /tmp/kubernetes-release.key
+      args:
+        removes: /tmp/kubernetes-release.key
+      register: dearmor_output
+      when: ansible_facts.distribution_version == '20.04'
+
+- name: Save the converted GPG key to keyring
+      copy:
+        src: /tmp/kubernetes-release.key.gpg
+        dest: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        owner: root
+        group: root
+        mode: '0644'
+      when: dearmor_output.rc == 0 and ansible_facts.distribution_version == '20.04'
+
+- name: Update APT package list
+  apt:
+    update_cache: yes
   when: ansible_facts.distribution_version == '20.04'
 
 - name: Add k8s repo Ubuntu
