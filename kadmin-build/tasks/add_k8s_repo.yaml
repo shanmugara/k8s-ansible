@@ -1,10 +1,4 @@
 ---
-# - name: Copy k8s Google Public signing key Ubuntu
-#   copy:
-#     src: kubernetes-apt-keyring.gpg
-#     dest: /etc/apt/keyrings/
-#     force: true
-#   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Download k8s Google Public signing key Ubuntu
   get_url:
@@ -31,22 +25,28 @@
   copy:
     src: /tmp/kubernetes-apt-keyring.gpg
     remote_src: true
-    dest: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    dest: /etc/apt/keyrings/
     owner: root
     group: root
     mode: '0644'
   when: dearmor_output.rc == 0 and ansible_facts.distribution_version == '20.04'
 
+# - name: Add k8s repo Ubuntu
+#   copy:
+#     src: deb_repo
+#     dest: /etc/apt/sources.list.d/kubernetes.list
+#   when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: Add k8s repo sources file for Ubuntu
+  lineinfile:
+    path: /etc/apt/sources.list.d/kubernetes.list
+    create: true
+    line: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v{{ kube_major_minor }}/deb/ /
+
 - name: Update APT package list
   apt:
     update_cache: yes
   when: ansible_facts.distribution_version == '20.04'
-
-- name: Add k8s repo Ubuntu
-  copy:
-    src: deb_repo
-    dest: /etc/apt/sources.list.d/kubernetes.list
-  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Add k8s repo CentOS
   copy:
