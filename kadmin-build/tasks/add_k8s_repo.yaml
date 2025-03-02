@@ -13,6 +13,13 @@
     force: true
   when: ansible_facts['distribution'] == "Ubuntu"
 
+- name: Add Kubernetes Google Public signing key to keyring Focal
+  apt_key:
+    url: "https://pkgs.k8s.io/core:/stable:/v{{ kube_major_minor }}/deb/Release.key"
+    state: present
+    keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  when: ansible_facts.distribution_version == '20.04'
+
 - name: Add k8s repo Ubuntu
   copy:
     src: deb_repo
