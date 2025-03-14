@@ -49,13 +49,13 @@
   when: ansible_facts['distribution'] == "CentOS"
 
 - name: Ensure kubectl completion and alias exist in root's bashrc
-    lineinfile:
-      path: "/root/.bashrc"
-      line: "{{ item }}"
-      create: yes
-      state: present
-    loop:
-      - '# Ansible: kubectl bash completion'
-      - 'source <(kubectl completion bash)'
-      - 'alias k=kubectl'
-      - 'complete -o default -F __start_kubectl k'
+  lineinfile:
+    path: "/root/.bashrc"
+    line: "{{ item }}"
+    create: yes
+    state: present
+  loop:
+    - '# Ansible: kubectl bash completion'
+    - 'source <(kubectl completion bash)'
+    - 'alias k=kubectl'
+    - 'complete -o default -F __start_kubectl k'
