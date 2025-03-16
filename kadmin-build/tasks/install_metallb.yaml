@@ -1,0 +1,23 @@
+---
+- name: Compute lb address range from CIDR
+  set_fact:
+    metallb_address_pool: "{{ (metallb_cidr | ansible.netcommon.ipaddr('hostnetwork'))[1] }}-{{ (metallb_cidr | ansible.netcommon.ipaddr('hostnetwork'))[-2] }}"
+
+- name: Deploy metallb load balancer
+  command: "kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml"
+  ignore_errors: true
+
+- name: Ensure destination directory exists
+  ansible.builtin.file:
+    path: /root/metallb  # Change to your desired directory
+    state: directory
+    mode: '0755'
+
+- name: Deploy metallb ip address pool config template
+  template:
+    src: ipaddresspool.j2
+    dest: /root/metallb/metallb_ipaddresspool.yaml
+
+- name: Deploy metallb ipaddresspool config
+  command: "kubectl apply -f /root/metallb/metallb_ipaddresspool.yaml"
+  ignore_errors: true

@@ -38,6 +38,14 @@
   import_tasks: install_helm.yaml
   when: '"masters" in group_names'
 
-- name: Deploy storage_class
+- name: Deploy nfs storage_class
   import_tasks: install_nfs_sc.yaml
+  when: '"masters" in group_names'
+
+- name: Deploy stern binary
+  import_tasks: install_stern.yaml
+  when: '"masters" in group_names'
+
+- name: Deploy metal-lb load balancer
+  import_tasks: install_metallb.yaml
   when: '"masters" in group_names'
