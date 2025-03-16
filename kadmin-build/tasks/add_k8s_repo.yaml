@@ -59,3 +59,31 @@
     - 'source <(kubectl completion bash)'
     - 'alias k=kubectl'
     - 'complete -o default -F __start_kubectl k'
+
+- name: Download Stern tarball
+      get_url:
+        url: "https://github.com/stern/stern/releases/download/v1.32.0/stern_1.32.0_linux_amd64.tar.gz"
+        dest: "/tmp/stern.tar.gz"
+        mode: '0644'
+
+- name: Create temporary directory for extraction
+  tempfile:
+    state: directory
+    suffix: stern
+  register: tempdir
+
+- name: Extract Stern binary
+  ansible.builtin.unarchive:
+    src: "/tmp/stern.tar.gz"
+    dest: "{{ tempdir.path }}"
+    remote_src: true
+
+- name: Move Stern binary to /usr/local/bin
+  command: mv "{{ tempdir.path }}/stern" /usr/local/bin/stern
+  args:
+    creates: "/usr/local/bin/stern"
+
+- name: Set execute permission on Stern binary
+  file:
+    path: "/usr/local/bin/stern"
+    mode: '0755'
