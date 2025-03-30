@@ -4,6 +4,7 @@ kind: ClusterConfiguration
 metadata:
   name: "{{ cluster_name }}"  # Optional, kubeadm does not enforce this
 controlPlaneEndpoint: "{{ cluster_name }}"  # The DNS name or IP for control-plane
+clusterName: "{{ cluster_name }}"  # Name of the cluster, defaults to the same as metadata.name
 apiServer:
   certSANs:
     - "{{ cluster_name }}"  # Extra SAN for API server certs
