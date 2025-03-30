@@ -1,7 +1,7 @@
 ---
 - name: Calculate first_ip
   set_fact:
-    first_ip: "{{ metallb_cidr|ansible.utils.ipaddr('2') | split('/') | first }}"
+    first_ip: "{{ metallb_cidr | ansible.utils.ipaddr('2') | split('/') | first }}"
 
 - name: Calculate last_ip
   set_fact:
