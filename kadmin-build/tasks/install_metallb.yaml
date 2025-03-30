@@ -1,15 +1,23 @@
 ---
-- name: Compute lb address range from CIDR
+- name: Calculate first_ip
   set_fact:
-    network: "{{ metallb_cidr | ansible.utils.ipaddr('network') }}"
-    broadcast: "{{ metallb_cidr | ansible.utils.ipaddr('broadcast') }}"
-    first_ip: "{{ network | ansible.utils.ipaddr('next_usable') }}"
-    last_ip: "{{ broadcast | ansible.utils.ipaddr('previous_usable') }}"
+    first_ip: "{{ metallb_cidr|ansible.utils.ipaddr('2') | split('/') | first }}"
+
+- name: Calculate last_ip
+  set_fact:
+    last_ip: "{{ metallb_cidr | ansible.utils.ipaddr('-5') | split('/') | first }}"
+
+- name: Calculate adress_pool
+  set_fact:
     metallb_address_pool: "{{ first_ip }}-{{ last_ip }}"
 
 - name: Deploy metallb load balancer
   command: "kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml"
   ignore_errors: true
+  register: result
+  retries: 5
+  delay: 10
+  until: result.rc == 0
 
 - name: Ensure destination directory exists
   ansible.builtin.file:
@@ -24,4 +32,8 @@
 
 - name: Deploy metallb ipaddresspool config
   command: "kubectl apply -f /root/metallb/metallb_ipaddresspool.yaml"
+  register: result
+  retries: 5
+  delay: 10
+  until: result.rc == 0
   ignore_errors: true
