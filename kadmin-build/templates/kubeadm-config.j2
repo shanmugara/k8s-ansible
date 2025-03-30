@@ -3,6 +3,9 @@ apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
 metadata:
   name: "{{ cluster_name }}"  # Optional, kubeadm does not enforce this
+  annotations:
+    omega.k8s.io/spire-trustdomain: "{{ trust_domain }}"
+
 controlPlaneEndpoint: "{{ cluster_name }}"  # The DNS name or IP for control-plane
 clusterName: "{{ cluster_name }}"  # Name of the cluster, defaults to the same as metadata.name
 apiServer:
