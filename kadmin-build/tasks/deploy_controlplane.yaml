@@ -14,3 +14,12 @@
     cmd: kubeadm init --config /tmp/kubeadm-config.yaml
   when: "'masters' in group_names"
   ignore_errors: true
+
+- name: Set trust-domain annotation in configmap
+  command: "kubectl annotate configmap kubeadm-config -n kube-system omega.k8s.io/spire-trustdomain={{ trust_domain }}"
+  when: "'masters' in group_names"
+  ignore_errors: true
+  register: result
+  retries: 5
+  delay: 10
+  until: result.rc == 0
