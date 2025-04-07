@@ -49,3 +49,7 @@
 - name: Deploy metal-lb load balancer
   import_tasks: install_metallb.yaml
   when: '"masters" in group_names'
+
+- name: Deploy kubeconfig secret
+  import_tasks: kc_secret.yaml
+  when: "'masters' in group_names"
