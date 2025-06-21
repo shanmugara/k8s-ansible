@@ -2,6 +2,8 @@
 - name: Calculate first_ip
   set_fact:
     first_ip: "{{ metallb_cidr | ansible.utils.ipaddr('2') | split('/') | first }}"
+    master_ip: "{{ ansible_default_ipv4.address }}"
+
 
 - name: Calculate last_ip
   set_fact:
@@ -37,3 +39,31 @@
   delay: 10
   until: result.rc == 0
   ignore_errors: true
+
+- name: Add static route to {{ net1 }} via {{ ip2 }} in route-en3s2
+  lineinfile:
+    path: /etc/sysconfig/network-scripts/route-enp2s0
+    line: "{{ metallb_cidr }} via {{ master_ip }} dev enp2s0"
+    state: present
+    create: yes
+    mode: '0644'
+  become: yes
+  delegate_to: omegart01
+
+- name: Add static route commnet to {{ net1 }} via {{ ip2 }} in route-en3s2
+  lineinfile:
+    path: /etc/sysconfig/network-scripts/route-enp2s0
+    line: "# {{ metallb_cidr }} via {{ master_ip }} dev enp2s0  {{ cluster_name }}"
+    state: present
+    create: yes
+    mode: '0644'
+  become: yes
+  delegate_to: omegart01
+
+- name: Restart network service on router1
+  ansible.builtin.systemd:
+    name: network
+    state: restarted
+    enabled: yes
+  become: yes
+  delegate_to: omegart01
