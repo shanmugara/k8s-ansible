@@ -11,7 +11,7 @@
 
 - name: kubeadm init controlpane
   shell:
-    cmd: kubeadm init --config /tmp/kubeadm-config.yaml
+    cmd: kubeadm init --config /tmp/kubeadm-config.yaml --ignore-preflight-errors=Port-10250
   when: "'masters' in group_names"
   ignore_errors: true
 
