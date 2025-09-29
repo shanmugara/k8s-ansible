@@ -50,7 +50,7 @@
   become: yes
   delegate_to: omegart01
 
-- name: Add static route commnet to {{ net1 }} via {{ ip2 }} in route-en3s2
+- name: Add static route comment to {{ net1 }} via {{ ip2 }} in route-en3s2
   lineinfile:
     path: /etc/sysconfig/network-scripts/route-enp2s0
     line: "# {{ metallb_cidr }} via {{ master_ip }} dev enp2s0  {{ cluster_name }}"
