@@ -27,7 +27,7 @@
   until: result.status == 200
 
 - name: Set trust-domain annotation in configmap
-  command: "kubectl annotate configmap kubeadm-config -n kube-system omega.k8s.io/spire-trustdomain={{ trust_domain }}"
+  command: "kubectl --kubeconfig /etc/kubernetes/admin.conf annotate configmap kubeadm-config -n kube-system omega.k8s.io/spire-trustdomain={{ trust_domain }}"
   when: "'masters' in group_names"
   ignore_errors: true
   register: result
