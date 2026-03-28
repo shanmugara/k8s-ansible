@@ -1,0 +1,20 @@
+---
+- name: Check if cluster_name resolves
+  shell:
+    cmd: nslookup "{{ cluster_name }}"
+  register: dns_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Register cluster_name A record in BIND DNS
+  community.general.nsupdate:
+    server: "{{ dns_server }}"
+    zone: "{{ cluster_name.split('.')[1:] | join('.') }}"
+    record: "{{ cluster_name.split('.')[0] }}"
+    value: "{{ hostvars[groups['masters'][0]]['ansible_default_ipv4']['address'] }}"
+    type: A
+    key_name: "{{ dns_tsig_key_name | default(omit) }}"
+    key_secret: "{{ dns_tsig_key_secret | default(omit) }}"
+    key_algorithm: "{{ dns_tsig_key_algorithm | default(omit) }}"
+  when: dns_check.rc != 0
+
