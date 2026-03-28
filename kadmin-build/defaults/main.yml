@@ -6,9 +6,15 @@ kubectl_version: "{{ kube_version }}"
 kubelet_version: "{{ kube_version }}"
 
 kube_major_minor: "{{ kube_version.split('-')[0].split('.')[:2] | join('.') }}"
-#cluster_name: 'omega-k8s-3.omegaworld.net'
+#cluster_name: 'omega-k8s-3.omegaworld.net' # Required: Fully qualified domain name for the Kubernetes cluster (e.g., 'cluster.example.com')
 pod_cidr: '10.244.0.0/16'
 containerd_version: 2.0.3
 cni_plugins_version: 1.1.1
 
 metallb_cidr: '192.168.8.0/24'
+
+# BIND DNS dynamic update settings
+# dns_server: ''          # Required: IP/hostname of the BIND server
+# dns_tsig_key_name: ''   # Optional: TSIG key name for authenticated updates
+# dns_tsig_key_secret: '' # Optional: TSIG key secret (base64-encoded)
+# dns_tsig_key_algorithm: 'hmac-sha256'  # Optional: TSIG algorithm
