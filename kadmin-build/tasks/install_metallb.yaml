@@ -40,30 +40,46 @@
   until: result.rc == 0
   ignore_errors: true
 
-- name: Add static route to {{ net1 }} via {{ ip2 }} in route-en3s2
-  lineinfile:
-    path: /etc/sysconfig/network-scripts/route-enp2s0
-    line: "{{ metallb_cidr }} via {{ master_ip }} dev enp2s0"
-    state: present
-    create: yes
-    mode: '0644'
+# CentOS/RHEL static route (deprecated - omegart01 now runs Ubuntu/netplan)
+# - name: Add static route to {{ net1 }} via {{ ip2 }} in route-en3s2
+#   lineinfile:
+#     path: /etc/sysconfig/network-scripts/route-enp2s0
+#     line: "{{ metallb_cidr }} via {{ master_ip }} dev enp2s0"
+#     state: present
+#     create: yes
+#     mode: '0644'
+#   become: yes
+#   delegate_to: omegart01
+#
+# - name: Add static route comment to {{ net1 }} via {{ ip2 }} in route-en3s2
+#   lineinfile:
+#     path: /etc/sysconfig/network-scripts/route-enp2s0
+#     line: "# {{ metallb_cidr }} via {{ master_ip }} dev enp2s0  {{ cluster_name }}"
+#     state: present
+#     create: yes
+#     mode: '0644'
+#   become: yes
+#   delegate_to: omegart01
+#
+# - name: Restart network service on router1
+#   ansible.builtin.systemd:
+#     name: network
+#     state: restarted
+#     enabled: yes
+#   become: yes
+#   delegate_to: omegart01
+
+# Ubuntu noble / netplan route management
+- name: Add metallb route to netplan on omegart01
+  ansible.builtin.blockinfile:
+    path: /etc/netplan/00-installer-config.yaml
+    insertbefore: "      nameservers:"
+    marker: "      # {mark} ANSIBLE MANAGED ROUTE {{ cluster_name }}"
+    block: "      - to: {{ metallb_cidr }}\n        via: {{ master_ip }}  # {{ cluster_name }}"
   become: yes
   delegate_to: omegart01
 
-- name: Add static route comment to {{ net1 }} via {{ ip2 }} in route-en3s2
-  lineinfile:
-    path: /etc/sysconfig/network-scripts/route-enp2s0
-    line: "# {{ metallb_cidr }} via {{ master_ip }} dev enp2s0  {{ cluster_name }}"
-    state: present
-    create: yes
-    mode: '0644'
-  become: yes
-  delegate_to: omegart01
-
-- name: Restart network service on router1
-  ansible.builtin.systemd:
-    name: network
-    state: restarted
-    enabled: yes
+- name: Apply netplan on omegart01
+  ansible.builtin.command: netplan apply
   become: yes
   delegate_to: omegart01
