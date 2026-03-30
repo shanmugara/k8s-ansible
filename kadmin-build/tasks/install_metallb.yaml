@@ -73,7 +73,7 @@
 - name: Add metallb route to netplan on omegart01
   ansible.builtin.blockinfile:
     path: /etc/netplan/00-installer-config.yaml
-    insertbefore: "      nameservers:"
+    insertafter: "      routes:"
     marker: "      # {mark} ANSIBLE MANAGED ROUTE {{ cluster_name }}"
     block: "      - to: {{ metallb_cidr }}\n        via: {{ master_ip }}  # {{ cluster_name }}"
   become: yes
