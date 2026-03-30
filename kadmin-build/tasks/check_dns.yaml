@@ -5,6 +5,7 @@
   register: dns_check
   ignore_errors: true
   changed_when: false
+  delegate_to: localhost
 
 - name: Register cluster_name A record in BIND DNS
   community.general.nsupdate:
@@ -17,4 +18,5 @@
     key_secret: "{{ dns_tsig_key_secret | default(omit) }}"
     key_algorithm: "{{ dns_tsig_key_algorithm | default(omit) }}"
   when: dns_check.rc != 0
+  delegate_to: localhost
 

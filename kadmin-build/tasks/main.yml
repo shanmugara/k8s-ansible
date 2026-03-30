@@ -4,7 +4,7 @@
 
 - name: Check and register cluster_name in DNS
   import_tasks: check_dns.yaml
-  when: cluster_name is defined and dns_server is defined
+  when: "'masters' in group_names"
 
 - name: Installing pre-req packages
   import_tasks: install_k8s_prereqs.yaml
