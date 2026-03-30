@@ -1,6 +1,6 @@
 ---
 # defaults file for kadmin-build
-kube_version: 1.24.2-00
+kube_version: 1.28.0-1.1
 kubeadm_version: "{{ kube_version }}"
 kubectl_version: "{{ kube_version }}"
 kubelet_version: "{{ kube_version }}"
