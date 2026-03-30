@@ -83,3 +83,5 @@
   ansible.builtin.command: netplan apply
   become: yes
   delegate_to: omegart01
+  async: 10
+  poll: 0
