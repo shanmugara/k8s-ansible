@@ -1,0 +1,11 @@
+---
+- name: Install CA bundle injector Helm chart
+  ansible.builtin.command:
+    argv:
+      - helm
+      - upgrade
+      - --install
+      - cabi
+      - --namespace
+      - cert-manager
+      - oci://docker.io/shanmugara/ca-bundle-injector-chart

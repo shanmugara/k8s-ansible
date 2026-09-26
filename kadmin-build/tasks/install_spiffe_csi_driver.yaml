@@ -1,0 +1,12 @@
+---
+- name: Install SPIFFE CSI driver Helm chart
+  ansible.builtin.command:
+    argv:
+      - helm
+      - upgrade
+      - --install
+      - spiffe-csi-driver
+      - --namespace
+      - spire
+      - oci://docker.io/shanmugara/omega-spiffe-csi-driver
+      - --create-namespace

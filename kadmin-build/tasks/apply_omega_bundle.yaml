@@ -1,0 +1,19 @@
+---
+- name: Copy Omega trust-manager Bundle manifest to the control-plane host
+  ansible.builtin.copy:
+    src: omega_bundle.yaml
+    dest: /tmp/omega_bundle.yaml
+    mode: '0644'
+
+- name: Apply Omega trust-manager Bundle
+  ansible.builtin.command:
+    argv:
+      - kubectl
+      - apply
+      - -f
+      - /tmp/omega_bundle.yaml
+
+- name: Remove temporary Omega trust-manager Bundle manifest
+  ansible.builtin.file:
+    path: /tmp/omega_bundle.yaml
+    state: absent

@@ -1,0 +1,14 @@
+---
+- name: Install SPIRE agent Helm chart
+  ansible.builtin.command:
+    argv:
+      - helm
+      - upgrade
+      - --install
+      - spire-agent
+      - --namespace
+      - spire
+      - oci://docker.io/shanmugara/omega-spire-agent
+      - --create-namespace
+      - --set
+      - cluster.name={{ cluster_name }}

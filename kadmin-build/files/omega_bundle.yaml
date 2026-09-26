@@ -1,0 +1,17 @@
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: omega-ca-bundle
+spec:
+  sources:
+    - configMap:
+        name: omegaadcs1-ca
+        key: root-certs.pem
+    - configMap:
+        name: omegascep-ca
+        key: root-certs.pem
+    - useDefaultCAs: true
+  target:
+    configMap:
+      key: root-certs.pem
+    namespaceSelector: {}

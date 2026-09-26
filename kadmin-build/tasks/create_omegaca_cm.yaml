@@ -1,0 +1,44 @@
+---
+- name: Copy Omega ADCS CA certificate to the control-plane host
+  ansible.builtin.copy:
+    src: omegaadcs1-ca.crt
+    dest: /tmp/omegaadcs1-ca.crt
+    mode: '0644'
+
+- name: Copy Omega SCEP CA certificate to the control-plane host
+  ansible.builtin.copy:
+    src: omegascep-ca.crt
+    dest: /tmp/omegascep-ca.crt
+    mode: '0644'
+
+- name: Apply Omega SCEP CA ConfigMap
+  ansible.builtin.shell: >-
+    set -o pipefail &&
+    kubectl create configmap omegascep-ca
+    --from-file=root-certs.pem=/tmp/omegascep-ca.crt
+    --namespace=cert-manager
+    --dry-run=client -o yaml |
+    kubectl apply -f -
+  args:
+    executable: /bin/bash
+
+- name: Remove temporary Omega SCEP CA certificate
+  ansible.builtin.file:
+    path: /tmp/omegascep-ca.crt
+    state: absent
+
+- name: Apply Omega ADCS CA ConfigMap
+  ansible.builtin.shell: >-
+    set -o pipefail &&
+    kubectl create configmap omegaadcs1-ca
+    --from-file=root-certs.pem=/tmp/omegaadcs1-ca.crt
+    --namespace=cert-manager
+    --dry-run=client -o yaml |
+    kubectl apply -f -
+  args:
+    executable: /bin/bash
+
+- name: Remove temporary Omega ADCS CA certificate
+  ansible.builtin.file:
+    path: /tmp/omegaadcs1-ca.crt
+    state: absent
