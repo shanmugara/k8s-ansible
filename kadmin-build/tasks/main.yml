@@ -42,6 +42,30 @@
   import_tasks: install_helm.yaml
   when: '"masters" in group_names'
 
+- name: Deploy cert-manager
+  import_tasks: install_cert_manager.yaml
+  when: '"masters" in group_names'
+
+- name: Create Omega ADCS CA ConfigMap
+  import_tasks: create_omegaca_cm.yaml
+  when: '"masters" in group_names'
+
+- name: Apply Omega CA trust-manager Bundle
+  import_tasks: apply_omega_bundle.yaml
+  when: '"masters" in group_names'
+
+- name: Install CA bundle injector
+  import_tasks: install_bundle_injector.yaml
+  when: '"masters" in group_names'
+
+- name: Install SPIRE agent
+  import_tasks: install_spire_agent.yaml
+  when: '"masters" in group_names'
+
+- name: Install SPIFFE CSI driver
+  import_tasks: install_spiffe_csi_driver.yaml
+  when: '"masters" in group_names'
+
 - name: Deploy nfs storage_class
   import_tasks: install_nfs_sc.yaml
   when: '"masters" in group_names'
@@ -54,6 +78,6 @@
   import_tasks: install_metallb.yaml
   when: '"masters" in group_names'
 
-- name: Deploy kubeconfig secret
-  import_tasks: kc_secret.yaml
-  when: "'masters' in group_names"
+# - name: Deploy kubeconfig secret
+#   import_tasks: kc_secret.yaml
+#   when: "'masters' in group_names"
