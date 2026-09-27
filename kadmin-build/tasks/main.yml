@@ -6,6 +6,16 @@
   import_tasks: check_dns.yaml
   when: "'masters' in group_names"
 
+- name: Delete cluster_name from DNS
+  import_tasks: delete_dns.yaml
+  tags:
+    - destroy
+
+- name: Remove MetalLB netplan route
+  import_tasks: delete_metallb_route.yaml
+  tags:
+    - destroy
+
 - name: Installing pre-req packages
   import_tasks: install_k8s_prereqs.yaml
 
