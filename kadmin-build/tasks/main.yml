@@ -65,10 +65,16 @@
 - name: Install CA bundle injector
   import_tasks: install_bundle_injector.yaml
   when: '"masters" in group_names'
+  
+- name: Install SPIRE registrar
+  import_tasks: install_spire_registrar.yaml
+  when: '"masters" in group_names'
 
 - name: Install SPIRE agent
   import_tasks: install_spire_agent.yaml
   when: '"masters" in group_names'
+
+
 
 - name: Install SPIFFE CSI driver
   import_tasks: install_spiffe_csi_driver.yaml

@@ -1,0 +1,12 @@
+---
+- name: Install SPIRE registrar Helm chart
+  ansible.builtin.command:
+    argv:
+      - helm
+      - upgrade
+      - --install
+      - spirereg
+      - --namespace
+      - spire
+      - oci://docker.io/shanmugara/spire-registrar-chart
+      - --create-namespace
