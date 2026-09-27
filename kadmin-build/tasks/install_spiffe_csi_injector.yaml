@@ -1,0 +1,12 @@
+---
+- name: Install SPIFFE CSI injector Helm chart
+  ansible.builtin.command:
+    argv:
+      - helm
+      - upgrade
+      - --install
+      - csi-injector
+      - --namespace
+      - spire
+      - oci://docker.io/shanmugara/spiffe-csi-injector-chart
+      - --create-namespace
