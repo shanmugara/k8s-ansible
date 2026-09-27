@@ -1,0 +1,19 @@
+---
+- name: Copy cluster CA issuer manifest to the control-plane host
+  ansible.builtin.copy:
+    src: cluster-ca-issuer.yaml
+    dest: /tmp/cluster-ca-issuer.yaml
+    mode: '0644'
+
+- name: Apply cluster CA issuer
+  ansible.builtin.command:
+    argv:
+      - kubectl
+      - apply
+      - -f
+      - /tmp/cluster-ca-issuer.yaml
+
+- name: Remove temporary cluster CA issuer manifest
+  ansible.builtin.file:
+    path: /tmp/cluster-ca-issuer.yaml
+    state: absent

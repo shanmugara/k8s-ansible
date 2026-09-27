@@ -1,0 +1,12 @@
+---
+- name: Create cert-manager cluster CA TLS secret
+  ansible.builtin.shell: >-
+    set -o pipefail &&
+    kubectl create secret tls cluster-ca-pair
+    --namespace=cert-manager
+    --key=/etc/kubernetes/pki/ca.key
+    --cert=/etc/kubernetes/pki/ca.crt
+    --dry-run=client -o yaml |
+    kubectl apply -f -
+  args:
+    executable: /bin/bash

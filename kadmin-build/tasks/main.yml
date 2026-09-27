@@ -46,6 +46,14 @@
   import_tasks: install_cert_manager.yaml
   when: '"masters" in group_names'
 
+- name: Create cert-manager cluster CA secret
+  import_tasks: create_cluster_ca_pair.yaml
+  when: '"masters" in group_names'
+
+- name: Create cert-manager cluster CA issuer
+  import_tasks: create_cluster_ca_issuer.yaml
+  when: '"masters" in group_names'
+
 - name: Create Omega ADCS CA ConfigMap
   import_tasks: create_omegaca_cm.yaml
   when: '"masters" in group_names'
