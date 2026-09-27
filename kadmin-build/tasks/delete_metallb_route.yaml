@@ -1,0 +1,26 @@
+---
+- name: Remove the MetalLB route managed for this cluster
+  ansible.builtin.blockinfile:
+    path: /etc/netplan/00-installer-config.yaml
+    marker: "      # {mark} ANSIBLE MANAGED ROUTE {{ cluster_name }}"
+    state: absent
+  register: netplan_route_removal
+  when: "'destroy' in ansible_run_tags"
+  tags:
+    - destroy
+  become: yes
+  delegate_to: omegart01
+  run_once: true
+
+- name: Apply netplan after removing the MetalLB route
+  ansible.builtin.command: netplan apply
+  when:
+    - "'destroy' in ansible_run_tags"
+    - netplan_route_removal.changed | default(false)
+  tags:
+    - destroy
+  become: yes
+  delegate_to: omegart01
+  run_once: true
+  async: 10
+  poll: 0
